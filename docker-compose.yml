@@ -1,0 +1,48 @@
+version: '2'
+services:
+  mongo:
+    image: mongo:3.4.10
+    hostname: mongodb
+    container_name: "ese-mongodb"
+    environment:
+      - TZ=America/Los_Angeles
+    ports:
+     - "27017:27017"
+     - "28017:28017"
+    volumes:
+     - /tmp/data/db:/data/db
+    command: mongod --port 27017
+    networks:
+      ese-net:
+        ipv4_address: 192.168.30.2
+
+  webapp:
+    build: ./webapp
+    image: webapp:3.0
+    hostname: webapp
+    container_name: "ese-webapp"
+    depends_on:
+      - mongo
+    volumes:
+      - ./webapp/app:/app
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TZ=America/Los_Angeles
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - 'RUN=flask run --host=0.0.0.0 --port=80'
+    networks:
+      ese-net:
+        ipv4_address: 192.168.30.3
+
+networks:
+  ese-net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.30.0/24
