@@ -31,6 +31,6 @@ scrapy runspider spider.py
 
 #Running Backend
 ```
-cd backend
-python3 build_inverted_index.py
+cd webapp/backend
+python3 build_inverted_index.py config.toml
 ```
