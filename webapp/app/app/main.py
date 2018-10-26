@@ -1,8 +1,3 @@
-import os
-import json
-import uuid
-import time
-from bson.json_util import dumps
 from flask import Flask, request, abort, jsonify, logging, render_template
 from pymongo import MongoClient
 import requests

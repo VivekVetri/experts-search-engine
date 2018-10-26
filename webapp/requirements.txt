@@ -7,3 +7,5 @@ request==1.0.2
 requests==2.18.4
 pymongo==3.6.1
 Flask-BasicAuth==0.2.0
+pytoml==0.1.19
+metapy==0.2.13
