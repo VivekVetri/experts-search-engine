@@ -9,7 +9,9 @@ class ExpertSpider(scrapy.Spider):
 
     def parse(self, response):
         name = response.css('title::text').extract_first()
+        details = response.css('p').extract()
         yield {
-            'name': name.css('span.text::text').extract_first()
+            'name': name,
+            'details': details
         }
 
