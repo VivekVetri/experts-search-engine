@@ -25,6 +25,7 @@ Webapp can be accessed at http://localhost
 #Offline :-
 #Running Crawler
 ```
+cd crawler/crawler/crawler
 scrapy crawl expert -o expert.json
 ```
 
