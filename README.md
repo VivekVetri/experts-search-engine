@@ -25,8 +25,7 @@ Webapp can be accessed at http://localhost
 #Offline :-
 #Running Crawler
 ```
-python3 crawler/spider.py
-scrapy runspider spider.py
+scrapy crawl expert -o expert.json
 ```
 
 #Running Backend
