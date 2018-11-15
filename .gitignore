@@ -2,3 +2,6 @@ __pycache__
 .idea
 backend/idx/
 *.txt
+
+#Ignoring index
+webapp/app/idx/
