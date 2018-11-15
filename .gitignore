@@ -2,6 +2,7 @@ __pycache__
 .idea
 backend/idx/
 *.txt
+.DS_Store
 
 #Ignoring index
 webapp/app/idx/

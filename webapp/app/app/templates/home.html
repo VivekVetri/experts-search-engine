@@ -20,16 +20,18 @@
 
     <!-- FORM SEARCH -->
     <div class="form">
-      <form>
+      <form action="/search" method="POST">
         <label for="form-search"></label>
-        <input type="text" id="form-search" placeholder="Search for a domain">
+        <input type="text" id="form-search" name="query" placeholder="Search for a domain">
+        <button type="submit">Submit</button>
+        <!--<input type="submit" value="Search" id="ese_search" formmethod="post">-->
       </form>
     </div>
 
     <!-- BUTTONS -->
-    <div class= "buttons">
-      <input type="submit" value="Search" id="ese_search">
+    <!--<div class= "buttons">-->
+      <!--<input type="submit" value="Search" id="ese_search" formmethod="post" action="/search">-->
       <!--<input type="submit" value="I'm Feeling Lucky" id="im_feeling_lucky">-->
-    </div>
+    <!--</div>-->
 
   </body>

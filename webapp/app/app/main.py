@@ -33,40 +33,46 @@ def load_ranker(cfg_file):
     # return InL2Ranker(some_param=0.9875)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    path_prefix = "/app/backend/"
-    if request.method == 'POST':
-        pass
+    if request.method == 'GET':
+        path_prefix = "/app/backend/"
 
-    start_time = time.time()
-    cfg = path_prefix + "config.toml"
-    with open(cfg, 'r') as fin:
-        cfg_d = pytoml.load(fin)
+        start_time = time.time()
+        cfg = path_prefix + "config.toml"
+        with open(cfg, 'r') as fin:
+            cfg_d = pytoml.load(fin)
 
-    idx = metapy.index.make_inverted_index(cfg)
-    ranker = load_ranker(cfg)
-    ev = metapy.index.IREval(cfg)
+        idx = metapy.index.make_inverted_index(cfg)
+        ranker = load_ranker(cfg)
+        ev = metapy.index.IREval(cfg)
 
-    query_cfg = cfg_d['query-runner']
-    query_path = query_cfg.get('query-path', 'queries.txt')
-    query_start = query_cfg.get('query-id-start', 0)
+        query_cfg = cfg_d['query-runner']
+        query_path = query_cfg.get('query-path', 'queries.txt')
+        query_start = query_cfg.get('query-id-start', 0)
 
-    top_k = 10
+        top_k = 10
 
-    query = metapy.index.Document()
-    print('Running queries')
-    with open(path_prefix + 'inl2.avg_p.txt', 'a') as file:
-        with open(query_path) as query_file:
-            for query_num, line in enumerate(query_file):
-                query.content(line.strip())
-                results = ranker.score(idx, query, top_k)
-                avg_p = ev.avg_p(results, query_start + query_num, top_k)
-                print("Query {} average precision: {}".format(query_num + 1, avg_p))
-                file.write(str(avg_p) + "\n")
-    print("Mean average precision: {}".format(ev.map()))
-    print("Elapsed: {} seconds".format(round(time.time() - start_time, 4)))
+        query = metapy.index.Document()
+        print('Running queries')
+        with open(path_prefix + 'inl2.avg_p.txt', 'a') as file:
+            with open(query_path) as query_file:
+                for query_num, line in enumerate(query_file):
+                    query.content(line.strip())
+                    results = ranker.score(idx, query, top_k)
+                    avg_p = ev.avg_p(results, query_start + query_num, top_k)
+                    print("Query {} average precision: {}".format(query_num + 1, avg_p))
+                    file.write(str(avg_p) + "\n")
+        print("Mean average precision: {}".format(ev.map()))
+        print("Elapsed: {} seconds".format(round(time.time() - start_time, 4)))
     return render_template('home.html')
+
+
+@app.route('/search', methods=['POST'])
+def search():
+    if request.method == 'POST':
+        query = request.form['query']
+    return render_template('result.html', query=query)
 
 
 if __name__ == "__main__":
