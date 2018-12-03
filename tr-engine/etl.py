@@ -7,7 +7,7 @@ from nltk.corpus import stopwords
 
 def remove_tags(html_text):
     xml_tag_regex = re.compile(r'<[^>]+>')
-    return xml_tag_regex.sub('', html_text)
+    return xml_tag_regex.sub(' ', html_text)
 
 
 def remove_escape_sequences(text):
@@ -15,7 +15,7 @@ def remove_escape_sequences(text):
     return re.sub(r'[^\w]', ' ', text_without_es)
 
 
-def getWords(text):
+def get_words(text):
     return re.compile('\w+').findall(text)
 
 
@@ -25,7 +25,7 @@ def process_details(input_text):
     cleaned_string = remove_escape_sequences(plain_string)
     filtered_string_list = [word for word in cleaned_string.split(' ') if word not in stopwords.words('english')]
     filtered_string = " ".join(filtered_string_list)
-    output_text = " ".join(getWords(filtered_string))
+    output_text = " ".join(get_words(filtered_string))
     return output_text
 
 
