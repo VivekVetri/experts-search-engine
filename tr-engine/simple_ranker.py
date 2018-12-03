@@ -6,27 +6,6 @@ import metapy
 import pytoml
 
 
-class InL2Ranker(metapy.index.RankingFunction):
-    """
-    Create a new ranking function in Python that can be used in MeTA.
-    """
-
-    def __init__(self, some_param=1.0):
-        self.param = some_param
-        # You *must* call the base class constructor here!
-        super(InL2Ranker, self).__init__()
-
-    def score_one(self, sd):
-        """
-        You need to override this function to return a score for a single term.
-        For fields available in the score_data sd object,
-        @see https://meta-toolkit.org/doxygen/structmeta_1_1index_1_1score__data.html
-        """
-        c_t_q = sd.query_term_weight
-        tfn = sd.doc_term_count * math.log2(1.0 + (sd.avg_dl / sd.doc_size))
-        return c_t_q * (tfn / (tfn + self.param)) * math.log2(((sd.num_docs + 1.0) / (sd.corpus_term_count + 0.5)))
-
-
 def load_ranker(cfg_file):
     """
     Use this function to return the Ranker object to evaluate.
@@ -37,7 +16,8 @@ def load_ranker(cfg_file):
     # Try to set the value between 0.9 and 1.0 and see what performs best
     # return metapy.index.JelinekMercer(0.09)
     # return metapy.index.AbsoluteDiscount(0.01)
-    return metapy.index.DirichletPrior()
+    # return metapy.index.DirichletPrior()
+    return metapy.index.OkapiBM25()
     # return InL2Ranker(some_param=0.9875)
 
 
@@ -73,6 +53,7 @@ if __name__ == '__main__':
             for query_num, line in enumerate(query_file):
                 query.content(line.strip())
                 results = ranker.score(idx, query, top_k)
+                print(results)
                 avg_p = ev.avg_p(results, query_start + query_num, top_k)
                 print("Query {} average precision: {}".format(query_num + 1, avg_p))
                 file.write(str(avg_p) + "\n")

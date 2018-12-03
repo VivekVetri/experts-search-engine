@@ -53,6 +53,7 @@ if __name__ == '__main__':
             for query_num, line in enumerate(query_file):
                 query.content(line.strip())
                 results = ranker.score(idx, query, top_k)
+                print(results)
                 avg_p = ev.avg_p(results, query_start + query_num, top_k)
                 print("Query {} average precision: {}".format(query_num + 1, avg_p))
                 file.write(str(avg_p) + "\n")
