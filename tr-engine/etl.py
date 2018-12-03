@@ -1,8 +1,6 @@
-import codecs
 import sys
 import json
 import re
-from pprint import pprint
 
 from nltk.corpus import stopwords
 
@@ -42,20 +40,19 @@ if __name__ == '__main__':
         print("No. of records : ", len(raw_data))
 
         cleaned_data = []
-        for profile in raw_data:
-            cleaned_data.append({'page': profile.get('page', None),
-                                 'name': profile.get('page', None),
-                                 'details': process_details(profile.get('details', []))})
+        with open('data/experts.dat', 'w') as exp_dat:
+            with open('data/experts.dat.names', 'w') as exp_dat_names:
+                for profile in raw_data:
+                    processed_details = process_details(profile.get('details'))
+                    if processed_details:
+                        name = profile.get('name', None)
+                        page = profile.get('page', None)
+                        if name is not None and page is not None:
+                            name = remove_escape_sequences(name)
+                            exp_dat_names.write(str(name)+' , '+str(page))
+                            exp_dat_names.write('\n')
+                            exp_dat.write(processed_details)
+                            exp_dat.write('\n')
 
-        # pprint(cleaned_data[0:5])
-
-        output_file = sys.argv[2]
-
-        print("Writing results to ", output_file)
-
-        with open(output_file, 'w') as fout:
-            json.dump(cleaned_data, fout, indent=4)
-            # json.dumps(cleaned_data, fout)
-
-        fin.close()
-        fout.close()
+        exp_dat.close()
+        exp_dat_names.close()

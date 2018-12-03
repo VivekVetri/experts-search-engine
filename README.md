@@ -37,7 +37,13 @@ python3 build_inverted_index.py config.toml
 ```
 
 #Running TR-Engine: ETL
+* Transforms crawler's raw dataset into MeTA format dataset. Refer Dataset
 ```bash
 pip3 install -r requirements.txt
-python3 tr-engine/etl.py crawler/crawler/expert.json crawler/crawler/cleaned_expert.json
+python3 tr-engine/etl.py /Users/vivek/Git/ese-stack/crawler/crawler/expert.json
 ```
+
+#Dataset
+
+* data/experts.dat - contains details of an expert per line
+* data/experts.dat.names - contains name
