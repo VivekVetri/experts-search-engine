@@ -2,10 +2,11 @@
     <div class="form">
        <div class="ese-small">
       <form action="/search" method="POST">
-          <a href="/" id="ese_small_logo"><img height="60px" width="80px" src="{{ url_for('static', filename='images/small_logo.png')}}" alt="ESE Small Logo"/></a>
+          <a href="/" id="ese_small_logo"><img height="40px" width="60px" src="{{ url_for('static', filename='images/small_logo.png')}}" alt="ESE Small Logo"/></a>
         <label for="form-search"></label>
-        <input type="text" id="form-search" name="query" placeholder="{{query}}">
+        <input type="text" id="form-search" name="query" placeholder="{{query}}" height="2%", width="80%">
           <button type="submit">Search Again</button>
       </form>
         </div>
     </div>
+    <div>{{result}}</div>
