@@ -5,3 +5,5 @@ backend/idx/
 
 #Ignoring index
 webapp/app/idx/
+tr-engine/idx
+tr-engine/*.txt
