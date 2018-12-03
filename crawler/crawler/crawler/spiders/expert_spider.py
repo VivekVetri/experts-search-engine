@@ -23,7 +23,7 @@ class ExpertSpider(scrapy.Spider):
     def parse_faculty(self, response):
         page = response.url
         name = response.css('head title::text').extract_first()
-        details = response.css('p').extract()
+        details = response.css('body').extract()
         yield {
             'page': page,
             'name': name,
