@@ -40,10 +40,14 @@ python3 build_inverted_index.py config.toml
 * Transforms crawler's raw dataset into MeTA format dataset. Refer Dataset
 ```bash
 pip3 install -r requirements.txt
-python3 tr-engine/etl.py /Users/vivek/Git/ese-stack/crawler/crawler/expert.json data/sample_experts_qrels.csv
+python3 tr-engine/etl.py crawler/crawler/expert.json tr-engine/experts/expert-queries.csv
 ```
 
 #Dataset
 
-* data/experts.dat - contains details of an expert per line
-* data/experts.dat.names - contains name
+* experts/experts.dat - contains details of an expert per line
+* experts/experts.dat.names - contains name
+* experts/experts-queries.txt - contains queries 
+* experts/experts-qrels.txt - contains relevance judgements 
+* line.toml - format of dataset
+* stopwords.txt - stopwords file

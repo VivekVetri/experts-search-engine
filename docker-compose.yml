@@ -10,7 +10,7 @@ services:
      - "27017:27017"
      - "28017:28017"
     volumes:
-     - /tmp/data/db:/data/db
+     - /tmp/experts/db:/experts/db
     command: mongod --port 27017
     networks:
       ese-net:

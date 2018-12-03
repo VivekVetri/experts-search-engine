@@ -39,10 +39,10 @@ def write_to_file(input_list, output_file):
 if __name__ == '__main__':
     input_file = sys.argv[1]
 
-    experts_data_file = 'data/experts.dat'
-    experts_data_names_file = 'data/experts.dat.names'
-    experts_queries_file = 'data/experts-queries.txt'
-    experts_qrels_file = 'data/experts-qrels.txt'
+    experts_data_file = 'tr-engine/experts/experts.dat'
+    experts_data_names_file = 'tr-engine/experts/experts.dat.names'
+    experts_queries_file = 'tr-engine/experts/experts-queries.txt'
+    experts_qrels_file = 'tr-engine/experts/experts-qrels.txt'
 
     print("Reading input file ", input_file)
 
