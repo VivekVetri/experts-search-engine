@@ -62,6 +62,8 @@ if __name__ == '__main__':
                     if processed_details:
                         name = profile.get('name', None)
                         page = profile.get('page', None)
+                        if name is None:
+                            name = 'N/A'
                         if name is not None and page is not None:
                             name = remove_escape_sequences(name)
                             valid_records += 1
