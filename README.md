@@ -43,6 +43,12 @@ pip3 install -r requirements.txt
 python3 tr-engine/etl.py crawler/crawler/expert.json tr-engine/experts/expert-queries.csv
 ```
 
+#Running TR-Engine: Indexer
+```bash
+cd tr-engine
+python3 indexer.py config.toml
+```
+
 #Dataset (tr-engine/experts)
 
 * experts/experts.dat - contains details of an expert per line
