@@ -29,8 +29,21 @@ def process_details(input_text):
     return output_text
 
 
+def write_to_file(input_list, output_file):
+    with open(output_file, 'w') as f:
+        for item in input_list:
+            f.write("%s\n" % item)
+    f.close()
+
+
 if __name__ == '__main__':
     input_file = sys.argv[1]
+
+    experts_data_file = 'data/experts.dat'
+    experts_data_names_file = 'data/experts.dat.names'
+    experts_queries_file = 'data/experts-queries.txt'
+    experts_qrels_file = 'data/experts-qrels.txt'
+
     print("Reading input file ", input_file)
 
     if input_file is not None:
@@ -40,8 +53,9 @@ if __name__ == '__main__':
         print("No. of records : ", len(raw_data))
 
         cleaned_data = []
-        with open('data/experts.dat', 'w') as exp_dat:
-            with open('data/experts.dat.names', 'w') as exp_dat_names:
+        print("Generating ", experts_data_file, experts_data_names_file, "...")
+        with open(experts_data_file, 'w') as exp_dat:
+            with open(experts_data_names_file, 'w') as exp_dat_names:
                 for profile in raw_data:
                     processed_details = process_details(profile.get('details'))
                     if processed_details:
@@ -54,5 +68,47 @@ if __name__ == '__main__':
                             exp_dat.write(processed_details)
                             exp_dat.write('\n')
 
+        print("No. of records generated ")
         exp_dat.close()
         exp_dat_names.close()
+
+    rel_judgement_file = sys.argv[2]
+
+    if rel_judgement_file is not None:
+        with open(rel_judgement_file, 'r') as rjf_in:
+            rel_content = rjf_in.readlines()
+        rel_content = [line.strip() for line in rel_content]
+
+        with open(experts_data_names_file, 'r') as edn_in:
+            url_content = edn_in.readlines()
+
+        url_content = [line.strip() for line in url_content]
+
+        query_keywords_set = set()
+        result_url_list = []
+        for rel in rel_content:
+            keywords, result_url, relevance = rel.split(',')
+            formatted_keywords = keywords.lower().strip()
+            formatted_result_url = result_url.lower().strip()
+            query_keywords_set.add(formatted_keywords)
+            result_url_list.append(formatted_result_url)
+
+        query_keywords_list = list(query_keywords_set)
+        print("Query keywords :", query_keywords_list)
+        print("urls :", result_url_list)
+
+        qrels_list = []
+        for rel in rel_content:
+            keywords, result_url, relevance = rel.split(',')
+            formatted_keywords = keywords.lower().strip()
+            formatted_result_url = result_url.lower().strip()
+            qrel = str(str(query_keywords_list.index(formatted_keywords))+' '+str(result_url_list.index(formatted_result_url))+' '+str(relevance).strip())
+            qrels_list.append(qrel)
+
+        print("Result : ")
+        for qrel in qrels_list:
+            print(qrel)
+
+        write_to_file(query_keywords_list, experts_queries_file)
+        write_to_file(qrels_list, experts_qrels_file)
+
