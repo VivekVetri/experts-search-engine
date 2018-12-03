@@ -63,7 +63,7 @@ if __name__ == '__main__':
                         page = profile.get('page', None)
                         if name is not None and page is not None:
                             name = remove_escape_sequences(name)
-                            exp_dat_names.write(str(name)+' , '+str(page))
+                            exp_dat_names.write(str(name) + ' , ' + str(page))
                             exp_dat_names.write('\n')
                             exp_dat.write(processed_details)
                             exp_dat.write('\n')
@@ -90,8 +90,9 @@ if __name__ == '__main__':
             keywords, result_url, relevance = rel.split(',')
             formatted_keywords = keywords.lower().strip()
             formatted_result_url = result_url.lower().strip()
-            query_keywords_set.add(formatted_keywords)
-            result_url_list.append(formatted_result_url)
+            if formatted_result_url and formatted_keywords:
+                query_keywords_set.add(formatted_keywords)
+                result_url_list.append(formatted_result_url)
 
         query_keywords_list = list(query_keywords_set)
         print("Query keywords :", query_keywords_list)
@@ -102,8 +103,13 @@ if __name__ == '__main__':
             keywords, result_url, relevance = rel.split(',')
             formatted_keywords = keywords.lower().strip()
             formatted_result_url = result_url.lower().strip()
-            qrel = str(str(query_keywords_list.index(formatted_keywords))+' '+str(result_url_list.index(formatted_result_url))+' '+str(relevance).strip())
-            qrels_list.append(qrel)
+            if formatted_keywords and formatted_result_url and str(relevance):
+                try:
+                    qrel = str(str(query_keywords_list.index(formatted_keywords)) + ' ' + str(
+                        result_url_list.index(formatted_result_url)) + ' ' + str(relevance).strip())
+                    qrels_list.append(qrel)
+                except:
+                    pass
 
         print("Result : ")
         for qrel in qrels_list:
@@ -111,4 +117,3 @@ if __name__ == '__main__':
 
         write_to_file(query_keywords_list, experts_queries_file)
         write_to_file(qrels_list, experts_qrels_file)
-
