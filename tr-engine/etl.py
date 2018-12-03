@@ -50,10 +50,11 @@ if __name__ == '__main__':
         with open(input_file, 'r') as fin:
             raw_data = json.load(fin)
 
-        print("No. of records : ", len(raw_data))
+        print("No. of input records : ", len(raw_data))
 
         cleaned_data = []
         print("Generating ", experts_data_file, experts_data_names_file, "...")
+        valid_records = 0
         with open(experts_data_file, 'w') as exp_dat:
             with open(experts_data_names_file, 'w') as exp_dat_names:
                 for profile in raw_data:
@@ -63,18 +64,22 @@ if __name__ == '__main__':
                         page = profile.get('page', None)
                         if name is not None and page is not None:
                             name = remove_escape_sequences(name)
+                            valid_records += 1
                             exp_dat_names.write(str(name) + ' , ' + str(page))
                             exp_dat_names.write('\n')
                             exp_dat.write(processed_details)
                             exp_dat.write('\n')
 
-        print("No. of records generated ")
+        print("No. of valid records :", valid_records)
+
         exp_dat.close()
         exp_dat_names.close()
 
     rel_judgement_file = sys.argv[2]
 
     if rel_judgement_file is not None:
+        print("Generating ", experts_queries_file, experts_qrels_file, "...")
+
         with open(rel_judgement_file, 'r') as rjf_in:
             rel_content = rjf_in.readlines()
         rel_content = [line.strip() for line in rel_content]
@@ -95,10 +100,11 @@ if __name__ == '__main__':
                 result_url_list.append(formatted_result_url)
 
         query_keywords_list = list(query_keywords_set)
-        print("Query keywords :", query_keywords_list)
-        print("urls :", result_url_list)
+        # print("Query keywords :", query_keywords_list)
+        # print("urls :", result_url_list)
 
         qrels_list = []
+        rels_counter = 0
         for rel in rel_content:
             keywords, result_url, relevance = rel.split(',')
             formatted_keywords = keywords.lower().strip()
@@ -108,12 +114,15 @@ if __name__ == '__main__':
                     qrel = str(str(query_keywords_list.index(formatted_keywords)) + ' ' + str(
                         result_url_list.index(formatted_result_url)) + ' ' + str(relevance).strip())
                     qrels_list.append(qrel)
+                    rels_counter += 1
                 except:
                     pass
 
-        print("Result : ")
-        for qrel in qrels_list:
-            print(qrel)
+        # print("Result : ")
+        # for qrel in qrels_list:
+        #     print(qrel)
 
         write_to_file(query_keywords_list, experts_queries_file)
         write_to_file(qrels_list, experts_qrels_file)
+        print("No. of unique queries generated :", len(query_keywords_list))
+        print("No. of relevance judgmentments generated :", rels_counter)
