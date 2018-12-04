@@ -1,5 +1,6 @@
 import math
 import sys
+from tabulate import tabulate
 
 import metapy
 
@@ -25,6 +26,17 @@ class InL2Ranker(metapy.index.RankingFunction):
         return sd.query_term_weight * numerator / (tfn + 1.0)
 
 
+def decode_results(results):
+    table_data = []
+    for (docId, score) in results:
+        with open("experts/experts.dat.names") as fp:
+            for i, line in enumerate(fp):
+                if i == docId:
+                    table_data.append(line.split(','))
+
+    print(tabulate(table_data))
+
+
 if __name__ == '__main__':
     config = sys.argv[1]
 
@@ -48,7 +60,7 @@ if __name__ == '__main__':
             elif ranker_code == 'l2':
                 ranker = InL2Ranker()
             elif ranker_code == 'jm':
-                ranker = metapy.index.JelinekMercer(0.09)
+                ranker = metapy.index.JelinekMercer(0.9)
 
     print(ranker)
     query = metapy.index.Document()
@@ -59,18 +71,23 @@ if __name__ == '__main__':
     num_results = 5
     with open('experts/experts-queries.txt') as query_file:
         for query_num, line in enumerate(query_file):
-            query.content(line.strip())
+            query_keywords = line.strip()
+            print(80 * '*')
+            print('\t\t\tQuery', query_num + 1, ':', query_keywords)
+            print(80 * '*')
+            query.content(query_keywords)
+
             results = ranker.score(inv_idx, query, num_results)
-
-            print("Top", num_results, "documents for query - ", line.strip())
-            print(results)
-
             avg_p = ev.avg_p(results, query_num, num_results)
             f1 = ev.f1(results, query_num, num_results)
             recall = ev.recall(results, query_num, num_results)
             ndcg = ev.ndcg(results, query_num, num_results)
-            print("Query {} average precision: {} overall recall : {} overall f1 score : {} ndcg : {}".format(
-                query_num + 1, avg_p, recall, f1, ndcg))
-            print('\n')
 
-    print("MAP : ", ev.map())
+            print("Top", num_results, "documents :")
+            decode_results(results)
+
+            print("Average precision: {} \noverall recall : {} \noverall f1 score : {} \nndcg : {}".format(
+                avg_p, recall, f1, ndcg))
+            print(80 * '-')
+
+    print("\nMAP : ", ev.map())

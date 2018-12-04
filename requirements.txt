@@ -1,3 +1,4 @@
 pytoml
 metapy
 nltk
+tabulate
