@@ -46,8 +46,9 @@ python3 tr-engine/etl.py crawler/crawler/expert.json tr-engine/experts/expert-qu
 #Running TR-Engine: Indexer
 ```bash
 cd tr-engine
-python3 bm25_ranker.py config.toml
-python3 pl2_ranker.py config.toml
+python3 ranker.py config.toml bm25
+python3 ranker.py config.toml jm 
+python3 ranker.py config.toml l2
 ```
 
 #Dataset (tr-engine/experts)

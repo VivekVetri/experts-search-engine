@@ -13,8 +13,21 @@ method = "ngram-word"
 ngram = 1
 filter = [{type = "icu-tokenizer", suppress-tags = true}, {type = "lowercase"}]
 
-[ranker]
-method = "bm25"
-k1 = 1.2
-b = 0.75
-k3 = 500
+#[[analyzers]]
+#method = "ngram-pos"
+#ngram = 2
+#filter = [{type = "icu-tokenizer"}, {type = "ptb-normalizer"}]
+#crf-prefix = "experts/crf"
+#
+#[[analyzers]]
+#method = "tree"
+#filter = [{type = "icu-tokenizer"}, {type = "ptb-normalizer"}]
+#features = ["subtree"]
+#tagger = "experts/perceptron-tagger/"
+#parser = "experts/parser"
+
+#[ranker]
+#method = "bm25"
+#k1 = 1.2
+#b = 0.75
+#k3 = 500
