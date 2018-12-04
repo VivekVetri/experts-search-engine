@@ -4,6 +4,8 @@ from tabulate import tabulate
 
 import metapy
 
+supported_rankers = ['bm25', 'l2', 'jm', 'dp']
+
 
 class InL2Ranker(metapy.index.RankingFunction):
     """
@@ -38,6 +40,11 @@ def decode_results(results):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Usage: {} config.toml [bm25]".format(sys.argv[0]))
+        print("Supported rankers :", supported_rankers)
+        sys.exit(1)
+
     config = sys.argv[1]
 
     inv_idx = metapy.index.make_inverted_index(config)
@@ -46,23 +53,26 @@ if __name__ == '__main__':
     print("Avg document length in inv index: ", inv_idx.avg_doc_length())
     print("Total corpus terms in inv index : ", inv_idx.total_corpus_terms())
 
-    supported_rankers = ['bm25', 'l2', 'jm']
-
     # default ranker - bm25
-
     ranker = metapy.index.OkapiBM25(1.2, 0.75)
-    if sys.argv[2]:
-        ranker_code = str(sys.argv[2]).strip().lower()
-        print(ranker_code)
-        if ranker_code in supported_rankers:
-            if ranker_code == 'bm25':
-                ranker = metapy.index.OkapiBM25(1.2, 0.75)
-            elif ranker_code == 'l2':
-                ranker = InL2Ranker()
-            elif ranker_code == 'jm':
-                ranker = metapy.index.JelinekMercer(0.9)
 
-    print(ranker)
+    if len(sys.argv) == 3:
+        ranker_code = str(sys.argv[2]).strip().lower()
+    else:
+        ranker_code = 'bm25'
+
+    # print(ranker_code)
+    if ranker_code in supported_rankers:
+        if ranker_code == 'bm25':
+            ranker = metapy.index.OkapiBM25(1.2, 0.75)
+        elif ranker_code == 'l2':
+            ranker = InL2Ranker()
+        elif ranker_code == 'jm':
+            ranker = metapy.index.JelinekMercer(0.99)
+        elif ranker_code == 'dp':
+            ranker = metapy.index.DirichletPrior()
+
+    print("Ranker :", ranker)
     query = metapy.index.Document()
 
     print("\nIR Evaluation : ")
