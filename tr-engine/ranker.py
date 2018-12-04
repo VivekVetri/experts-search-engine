@@ -34,7 +34,7 @@ def decode_results(results):
         with open("experts/experts.dat.names") as fp:
             for i, line in enumerate(fp):
                 if i == docId:
-                    table_data.append(line.split(','))
+                    table_data.append(line.split(',') + [score])
 
     print(tabulate(table_data))
 

@@ -28,12 +28,12 @@ filter = [{type = "icu-tokenizer", suppress-tags = true}, {type = "lowercase"}]
 #crf-prefix = "experts/crf"
 #
 
-#[[analyzers]]
-#method = "tree"
-#filter = [{type = "icu-tokenizer"}, {type = "ptb-normalizer"}]
-#features = ["subtree"]
-#tagger = "experts/perceptron-tagger/"
-#parser = "experts/parser"
+[[analyzers]]
+method = "tree"
+filter = [{type = "icu-tokenizer"}, {type = "ptb-normalizer"}]
+features = ["subtree"]
+tagger = "experts/perceptron-tagger/"
+parser = "experts/parser"
 
 #[ranker]
 #method = "bm25"
