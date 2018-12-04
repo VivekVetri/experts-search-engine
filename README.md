@@ -21,7 +21,7 @@ scrapy crawl expert -o expert.json
 #Running TR-Engine: ETL
 * Transforms crawler's raw dataset into MeTA format dataset. Refer Dataset
 ```bash
-python3 tr-engine/etl.py crawler/expert.json tr-engine/experts/expert-queries.csv
+python3 tr-engine/etl.py crawler/crawler/expert.json tr-engine/experts/expert-queries.csv
 ```
 
 #Dataset (tr-engine/experts)
