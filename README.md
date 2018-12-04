@@ -48,6 +48,7 @@ cd tr-engine
 python3 ranker.py config.toml bm25
 python3 ranker.py config.toml jm 
 python3 ranker.py config.toml l2
+python3 ranker.py config.toml dp 
 ```
 
 #Dataset (tr-engine/experts)

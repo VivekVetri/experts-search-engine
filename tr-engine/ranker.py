@@ -1,5 +1,8 @@
 import math
+import shutil
 import sys
+from time import sleep
+
 from tabulate import tabulate
 
 import metapy
@@ -46,8 +49,17 @@ if __name__ == '__main__':
         sys.exit(1)
 
     config = sys.argv[1]
+    inv_idx_dir = 'experts/idx'
+
+    # remove the index directory for a fresh start
+    try:
+        shutil.rmtree(inv_idx_dir)
+        sleep(2)
+    except:
+        pass
 
     inv_idx = metapy.index.make_inverted_index(config)
+
     print("No. of docs in inv index : ", inv_idx.num_docs())
     print("No. of unique terms in inv index : ", inv_idx.unique_terms())
     print("Avg document length in inv index: ", inv_idx.avg_doc_length())
