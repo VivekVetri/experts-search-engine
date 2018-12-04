@@ -13,12 +13,21 @@ method = "ngram-word"
 ngram = 1
 filter = [{type = "icu-tokenizer", suppress-tags = true}, {type = "lowercase"}]
 
+#[embeddings]
+#prefix = "word-embeddings"
+#filter = [{type = "icu-tokenizer"}, {type = "lowercase"}]
+#vector-size = 5
+#[embeddings.vocab]
+#min-count = 3
+#max-size = 50
+
 #[[analyzers]]
 #method = "ngram-pos"
 #ngram = 2
 #filter = [{type = "icu-tokenizer"}, {type = "ptb-normalizer"}]
 #crf-prefix = "experts/crf"
 #
+
 #[[analyzers]]
 #method = "tree"
 #filter = [{type = "icu-tokenizer"}, {type = "ptb-normalizer"}]
