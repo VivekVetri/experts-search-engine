@@ -4,6 +4,4 @@ backend/idx/
 .DS_Store
 
 #Ignoring index
-webapp/app/idx/
-tr-engine/idx
-tr-engine/*.txt
+tr-engine/experts/idx/
