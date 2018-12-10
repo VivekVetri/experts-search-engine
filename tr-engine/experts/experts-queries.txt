@@ -1,3 +1,6 @@
+computer graphics
+genomics
+machine learning
 cryptography
-computer network mit
-computer network
+computer graphics
+computer networks
