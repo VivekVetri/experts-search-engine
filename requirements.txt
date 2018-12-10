@@ -1,4 +1,4 @@
 pytoml
 metapy
-tabulate
+tabulate==0.8.2
 scrapy==1.5.1
