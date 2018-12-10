@@ -42,3 +42,9 @@ python3 ranker.py config.toml l2
 python3 ranker.py config.toml dp 
 ```
 
+#Running TR-Engine: Webapp 
+```bash
+cd tr-engine
+python3 bottle_webapp.py
+```
+

@@ -1,4 +1,4 @@
-from bottle import route, run, template, request
+from bottle import route, run, template, request, static_file
 import metapy
 from tabulate import tabulate
 
@@ -20,6 +20,11 @@ def remove_punctionations(text):
     for char in '-.,\n':
         text = text.replace(char, '')
     return text.lower()
+
+
+@route('/static/<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root='./static/')
 
 
 @route('/')
@@ -56,11 +61,6 @@ def search_keywords():
     decode_results(results)
 
     return template('templates/result.html', query=keywords, result=results)
-
-
-@route('/hello/<name>')
-def index(name):
-    return template('<b>Hello {{name}}</b>!', name=name)
 
 
 run(host='localhost', port=8080)
