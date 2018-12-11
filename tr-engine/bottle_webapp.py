@@ -11,9 +11,9 @@ def decode_results(results):
         with open("experts/experts.dat.names") as fp:
             for i, line in enumerate(fp):
                 if i == docId:
-                    table_data.append(line.split(','))
+                    table_data.append(",".join(line.split(','))+', '+str(score))
 
-    print(tabulate(table_data))
+    return table_data
 
 
 def remove_punctionations(text):
@@ -56,11 +56,13 @@ def search_keywords():
     ranker = metapy.index.OkapiBM25(1.2, 0.75)
     # ranker = metapy.index.DirichletPrior()
     results = ranker.score(inv_idx, query, num_results)
-    print(results)
     print("Top", num_results, "documents :")
-    decode_results(results)
 
-    return template('templates/result.html', query=keywords, result=results)
+    decoded_results = decode_results(results)
+    print(decode_results)
+
+    return template('templates/result.html', query=keywords, results=decoded_results)
+    # return template('make_table', rows=results)
 
 
 run(host='localhost', port=8080)

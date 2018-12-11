@@ -9,4 +9,14 @@
       </form>
         </div>
     </div>
-    <div>{{result}}</div>
+<div>
+<table border="1">
+%for row in results:
+  <tr>
+      <td>{{row}}</td>
+      %end
+  </tr>
+%end
+</table>
+
+</div>
