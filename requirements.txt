@@ -1,3 +1,4 @@
-pytoml
-metapy
+pytoml==0.1.20
+metapy==0.2.13
 scrapy==1.5.1
+tabulate==0.8.2
