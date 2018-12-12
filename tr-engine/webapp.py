@@ -1,5 +1,6 @@
 from bottle import route, run, template, request, static_file
 import metapy
+from ranker import search
 
 # Build inverted index
 inv_idx = metapy.index.make_inverted_index('config.toml')
@@ -42,37 +43,11 @@ def search_keywords():
     """ Sample request - { 'query' : 'computer science' }"""
 
     keywords = request.forms.get('query')
+    ranker_code = request.forms.getall('ranker_code')[0]
+    decoded_results = decode_results(search(ranker_code, keywords, 10, False))
+    print("Ranker code : ", ranker_code)
 
-    # this line will try to load existing index or create new one if not exists
-    # inv_idx = cache.get('inv_index')
-
-    # Summary of inverted index
-    print("No. of docs in inv index : ", inv_idx.num_docs())
-    print("No. of unique terms in inv index : ", inv_idx.unique_terms())
-    print("Avg document length in inv index: ", inv_idx.avg_doc_length())
-    print("Total corpus terms in inv index : ", inv_idx.total_corpus_terms())
-
-    query = metapy.index.Document()
-
-    filtered = remove_punctuations(keywords)
-    query.content(filtered)
-
-    print("Search query : ", filtered)
-
-    # top results
-    num_results = 10
-
-    ranker = metapy.index.OkapiBM25(1.2, 0.75)
-    # ranker = metapy.index.DirichletPrior()
-    results = ranker.score(inv_idx, query, num_results)
-
-    print("Top", num_results, "documents :")
-
-    decoded_results = decode_results(results)
-    for result in decoded_results:
-        print(result)
-
-    return template('templates/result.html', query=keywords, results=decoded_results)
+    return template('templates/result.html', query=keywords, results=decoded_results, ranker_code=ranker_code)
 
 
 # runs the bottle app in port 8080

@@ -3,7 +3,25 @@
         <form action="/search" method="POST">
             <a href="/" id="ese_small_logo"><img height="40px" width="60px" src='static/images/small_logo.png' alt="ESE Small Logo"/></a>
             <label for="form-search"></label>
-            <input type="text" id="form-search" name="query" placeholder="{{query}}" height="2%", width="80%">
+            <!--<select class='custom-select' name = "ranker_code" value="hello">-->
+                <!--%if ranker_code == 'bm25':-->
+                    <!--<option value = "bm25" selected>BM25</option>-->
+                <!--%end-->
+                <!--<option value = "bm25">BM25</option>-->
+                <!--%if ranker_code == 'l2':-->
+                    <!--<option value = "l2" selected>L2</option>-->
+                <!--%end-->
+                <!--<option value = "l2">L2</option>-->
+                <!--%if ranker_code == 'jm':-->
+                    <!--<option value = "jm" selected>Jerenik-Mercer</option>-->
+                <!--%end-->
+                <!--<option value = "jm">Jerenik-Mercer</option>-->
+                <!--%if ranker_code == 'dp':-->
+                    <!--<option value = "dp" selected>Dirichlet-Prior</option>-->
+                <!--%end-->
+                <!--<option value = "dp">Dirichlet-Prior</option>-->
+            <!--</select>-->
+            <input type="text" id="form-search" name="query" placeholder="{{query}}" height="2%", width="80%" value="{{query}}">
             <button type="submit">Search Again</button>
         </form>
     </div>

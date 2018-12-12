@@ -1,19 +1,25 @@
 <head>
-  <title>Expert Search Engine</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/style.css">
+    <title>Expert Search Engine</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 
 <body>
 <div class="ese">
-  <a href="#" id="ese_logo"><img height="100px" width="600px" src='./static/images/logo.png' alt="ESE Logo"/></a>
+    <a href="#" id="ese_logo"><img height="100px" width="600px" src='./static/images/logo.png' alt="ESE Logo"/></a>
 </div>
 
 <div class="form">
-  <form action="/search" method="POST">
-    <label for="form-search"></label>
-    <input type="text" id="form-search" name="query" placeholder="Search for a domain">
-    <button type="submit">Submit</button>
-  </form>
+    <form action="/search" method="POST">
+        <label for="form-search"></label>
+        <select name = "ranker_code" style="height: 40px" >
+            <option value = "bm25">BM25</option>
+            <option value = "l2">L2</option>
+            <option value = "jm">Jerenik-Mercer</option>
+            <option value = "dp">Dirichlet-Prior</option>
+        </select>
+        <input type="text" id="form-search" name="query" placeholder="Search for a domain">
+        <button type="submit">Submit</button>
+    </form>
 </div>
 </body>
