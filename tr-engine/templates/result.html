@@ -26,11 +26,19 @@
         </form>
     </div>
 </div>
+<div>\\
+ %if ranker_code:
+<p><b>Ranker :</b> {{ranker_code}}</p>\\
+ %end
+</div>
 <div>
     <table border="1">
         %for row in results:
         <tr>
-            <td>{{row}}</td>
+            <td>
+                <a href="{{row.split(',')[1]}}" target="_blank">{{row.split(',')[0]}}</a>
+            </td>
+            <td>{{row.split(',')[2]}}</td>
             %end
         </tr>
         %end
