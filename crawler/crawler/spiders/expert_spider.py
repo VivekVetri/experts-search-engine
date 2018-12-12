@@ -9,7 +9,7 @@ class ExpertSpider(scrapy.Spider):
         'http://people.csail.mit.edu/bab/',
         'http://people.csail.mit.edu/costis',
         'http://erikdemaine.org/',
-        'https: // www.csail.mit.edu / person / shafi - goldwasser',
+        'https://www.csail.mit.edu/person/shafi-goldwasser',
         'http://people.csail.mit.edu/indyk',
         'http://people.csail.mit.edu/karger',
         'http://supertech.csail.mit.edu/~cel/',
