@@ -1,4 +1,7 @@
-<div class="form">
+<head>
+    <script src="static/js/jquery-3.3.1.min.js"></script>
+</head>
+<body><div class="form">
     <div class="ese-small">
         <form action="/search" method="POST">
             <a href="/" id="ese_small_logo"><img height="40px" width="60px" src='static/images/small_logo.png' alt="ESE Small Logo"/></a>
@@ -44,7 +47,7 @@
         %for row in results:
         <tr>
             <td>
-                <a href="{{row.split(',')[1]}}" target="_blank">{{row.split(',')[0]}}</a>
+                <a href="{{str(row.split(',')[1]).strip()}}" id="{{str(row.split(',')[1]).strip()}}" target="_blank">{{row.split(',')[0]}}</a>
             </td>
             <td>{{row.split(',')[2]}}</td>
             %end
@@ -53,3 +56,9 @@
     </table>
 
 </div>
+<script>
+    $("a").click(function(e) {
+        console.log("{{query}}" + "," + this.id + ",1");
+    });
+</script>
+</body>
