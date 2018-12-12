@@ -5,3 +5,9 @@ backend/idx/
 
 #Ignoring index
 tr-engine/experts/idx/
+tr-engine/experts/greedy-constituency-parser.tar.gz
+tr-engine/experts/greedy-perceptron-tagger.tar.gz
+tr-engine/experts/parser/
+tr-engine/experts/perceptron-tagger/
+tr-engine/experts/crf.tar.gz
+tr-engine/experts/crf/
