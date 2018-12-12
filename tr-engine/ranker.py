@@ -55,8 +55,11 @@ def rebuild_index():
     return metapy.index.make_inverted_index('config.toml')
 
 
-def search(ranker_code, keywords, num_results, refresh_cache=False):
-    inv_idx = rebuild_index()
+def search(ranker_code, keywords, num_results, refresh_index=False):
+    if refresh_index:
+        inv_idx = rebuild_index()
+
+    inv_idx = metapy.index.make_inverted_index('config.toml')
 
     print("No. of docs in inv index : ", inv_idx.num_docs())
     print("No. of unique terms in inv index : ", inv_idx.unique_terms())

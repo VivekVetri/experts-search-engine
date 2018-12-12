@@ -3,7 +3,7 @@ from time import sleep
 
 from bottle import route, run, template, request, static_file
 import metapy
-from ranker import search
+from ranker import search, rebuild_index
 
 
 def decode_results(results):
@@ -52,6 +52,9 @@ def search_keywords():
 
     return template('templates/result.html', query=keywords, results=decoded_results, ranker_code=ranker_code)
 
+
+# rebuild index on bootup
+rebuild_index()
 
 # runs the bottle app in port 8080
 run(host='0.0.0.0', port=8080)
