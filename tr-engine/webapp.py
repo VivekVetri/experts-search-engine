@@ -1,9 +1,9 @@
+import shutil
+from time import sleep
+
 from bottle import route, run, template, request, static_file
 import metapy
 from ranker import search
-
-# Build inverted index
-inv_idx = metapy.index.make_inverted_index('config.toml')
 
 
 def decode_results(results):

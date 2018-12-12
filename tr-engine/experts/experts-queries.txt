@@ -1,5 +1,0 @@
-computer networks
-computer graphics
-cryptography
-machine learning
-genomics

@@ -42,18 +42,21 @@ def decode_results(results):
     print(tabulate(table_data))
 
 
+def rebuild_index():
+    inv_idx_dir = 'experts/idx'
+
+    # remove the index directory for a fresh start
+    try:
+        shutil.rmtree(inv_idx_dir)
+        sleep(2)
+    except:
+        pass
+
+    return metapy.index.make_inverted_index('config.toml')
+
+
 def search(ranker_code, keywords, num_results, refresh_cache=False):
-    if refresh_cache:
-        inv_idx_dir = 'experts/idx'
-
-        # remove the index directory for a fresh start
-        try:
-            shutil.rmtree(inv_idx_dir)
-            sleep(2)
-        except:
-            pass
-
-    inv_idx = metapy.index.make_inverted_index('config.toml')
+    inv_idx = rebuild_index()
 
     print("No. of docs in inv index : ", inv_idx.num_docs())
     print("No. of unique terms in inv index : ", inv_idx.unique_terms())
@@ -130,7 +133,7 @@ def rank(config_file, ranker_code, refresh_cache=False):
     print("\nIR Evaluation : ")
     # IR Evaluation
     ev = metapy.index.IREval(config)
-    num_results = 5
+    num_results = 2
     with open('experts/experts-queries.txt') as query_file:
         for query_num, line in enumerate(query_file):
             query_keywords = line.strip()
@@ -143,13 +146,15 @@ def rank(config_file, ranker_code, refresh_cache=False):
             avg_p = ev.avg_p(results, query_num, num_results)
             f1 = ev.f1(results, query_num, num_results)
             recall = ev.recall(results, query_num, num_results)
+            precision = ev.precision(results, query_num, num_results)
             ndcg = ev.ndcg(results, query_num, num_results)
 
             print("Top", num_results, "documents :")
             decode_results(results)
 
-            print("Average precision: {} \noverall recall : {} \noverall f1 score : {} \nndcg : {}".format(
-                avg_p, recall, f1, ndcg))
+            print(
+                "Average precision: {} \noverall recall : {} \noverall f1 score : {} \nndcg : {}\nprecision : {}".format(
+                    avg_p, recall, f1, ndcg, precision))
             print(80 * '-')
 
     print("\nMAP : ", ev.map())
