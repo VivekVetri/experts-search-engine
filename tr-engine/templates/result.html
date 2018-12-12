@@ -1,22 +1,21 @@
-<!-- FORM SEARCH -->
-    <div class="form">
-       <div class="ese-small">
-      <form action="/search" method="POST">
-          <a href="/" id="ese_small_logo"><img height="40px" width="60px" src='static/images/small_logo.png' alt="ESE Small Logo"/></a>
-        <label for="form-search"></label>
-        <input type="text" id="form-search" name="query" placeholder="{{query}}" height="2%", width="80%">
-          <button type="submit">Search Again</button>
-      </form>
-        </div>
+<div class="form">
+    <div class="ese-small">
+        <form action="/search" method="POST">
+            <a href="/" id="ese_small_logo"><img height="40px" width="60px" src='static/images/small_logo.png' alt="ESE Small Logo"/></a>
+            <label for="form-search"></label>
+            <input type="text" id="form-search" name="query" placeholder="{{query}}" height="2%", width="80%">
+            <button type="submit">Search Again</button>
+        </form>
     </div>
+</div>
 <div>
-<table border="1">
-%for row in results:
-  <tr>
-      <td>{{row}}</td>
-      %end
-  </tr>
-%end
-</table>
+    <table border="1">
+        %for row in results:
+        <tr>
+            <td>{{row}}</td>
+            %end
+        </tr>
+        %end
+    </table>
 
 </div>

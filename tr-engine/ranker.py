@@ -42,23 +42,18 @@ def decode_results(results):
     print(tabulate(table_data))
 
 
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Usage: {} config.toml [bm25]".format(sys.argv[0]))
-        print("Supported rankers :", supported_rankers)
-        sys.exit(1)
+def search(ranker_code, keywords, num_results, refresh_cache=False):
+    if refresh_cache:
+        inv_idx_dir = 'experts/idx'
 
-    config = sys.argv[1]
-    inv_idx_dir = 'experts/idx'
+        # remove the index directory for a fresh start
+        try:
+            shutil.rmtree(inv_idx_dir)
+            sleep(2)
+        except:
+            pass
 
-    # remove the index directory for a fresh start
-    try:
-        shutil.rmtree(inv_idx_dir)
-        sleep(2)
-    except:
-        pass
-
-    inv_idx = metapy.index.make_inverted_index(config)
+    inv_idx = metapy.index.make_inverted_index('config.toml')
 
     print("No. of docs in inv index : ", inv_idx.num_docs())
     print("No. of unique terms in inv index : ", inv_idx.unique_terms())
@@ -68,12 +63,57 @@ if __name__ == '__main__':
     # default ranker - bm25
     ranker = metapy.index.OkapiBM25(1.2, 0.75)
 
-    if len(sys.argv) == 3:
-        ranker_code = str(sys.argv[2]).strip().lower()
-    else:
-        ranker_code = 'bm25'
+    # if len(sys.argv) == 3:
+    #     ranker_code = str(sys.argv[2]).strip().lower()
+    # else:
+    #     ranker_code = 'bm25'
 
-    # print(ranker_code)
+    if ranker_code in supported_rankers:
+        if ranker_code == 'bm25':
+            ranker = metapy.index.OkapiBM25(1.2, 0.75)
+        elif ranker_code == 'l2':
+            ranker = InL2Ranker()
+        elif ranker_code == 'jm':
+            ranker = metapy.index.JelinekMercer(0.99)
+        elif ranker_code == 'dp':
+            ranker = metapy.index.DirichletPrior()
+
+    print("Ranker :", ranker)
+    query = metapy.index.Document()
+    query.content(keywords)
+
+    results = ranker.score(inv_idx, query, num_results)
+    print("Top", num_results, "documents :")
+    # decode_results(results)
+    return results
+
+
+def rank(config_file, ranker_code, refresh_cache=False):
+    if refresh_cache:
+        inv_idx_dir = 'experts/idx'
+
+        # remove the index directory for a fresh start
+        try:
+            shutil.rmtree(inv_idx_dir)
+            sleep(2)
+        except:
+            pass
+
+    inv_idx = metapy.index.make_inverted_index(config_file)
+
+    print("No. of docs in inv index : ", inv_idx.num_docs())
+    print("No. of unique terms in inv index : ", inv_idx.unique_terms())
+    print("Avg document length in inv index: ", inv_idx.avg_doc_length())
+    print("Total corpus terms in inv index : ", inv_idx.total_corpus_terms())
+
+    # default ranker - bm25
+    ranker = metapy.index.OkapiBM25(1.2, 0.75)
+
+    # if len(sys.argv) == 3:
+    #     ranker_code = str(sys.argv[2]).strip().lower()
+    # else:
+    #     ranker_code = 'bm25'
+
     if ranker_code in supported_rankers:
         if ranker_code == 'bm25':
             ranker = metapy.index.OkapiBM25(1.2, 0.75)
@@ -113,3 +153,17 @@ if __name__ == '__main__':
             print(80 * '-')
 
     print("\nMAP : ", ev.map())
+
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Usage: {} config.toml [bm25]".format(sys.argv[0]))
+        print("Supported rankers :", supported_rankers)
+        sys.exit(1)
+    config = sys.argv[1]
+    try:
+        ranker_id = sys.argv[2]
+    except:
+        ranker_id = 'bm25'
+
+    rank(config, ranker_id, True)

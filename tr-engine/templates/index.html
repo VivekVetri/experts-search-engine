@@ -1,37 +1,19 @@
-  <head>
-    <title>Expert Search Engine</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-      <link rel="stylesheet" href="static/css/style.css">
-  </head>
+<head>
+  <title>Expert Search Engine</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
 
-  <body>
-    <header>
-      <nav>
-        <ul id="nav_bar">
-          <!--<li id="sign_in"><a href="#">Sign In</a></li>-->
-        </ul>
-      </nav>
-    </header>
+<body>
+<div class="ese">
+  <a href="#" id="ese_logo"><img height="100px" width="600px" src='./static/images/logo.png' alt="ESE Logo"/></a>
+</div>
 
-    <!-- GOOGLE IMG -->
-    <div class="ese">
-      <a href="#" id="ese_logo"><img height="100px" width="600px" src='./static/images/logo.png' alt="ESE Logo"/></a>
-    </div>
-
-    <!-- FORM SEARCH -->
-    <div class="form">
-      <form action="/search" method="POST">
-        <label for="form-search"></label>
-        <input type="text" id="form-search" name="query" placeholder="Search for a domain">
-        <button type="submit">Submit</button>
-        <!--<input type="submit" value="Search" id="ese_search" formmethod="post">-->
-      </form>
-    </div>
-
-    <!-- BUTTONS -->
-    <!--<div class= "buttons">-->
-      <!--<input type="submit" value="Search" id="ese_search" formmethod="post" action="/search">-->
-      <!--<input type="submit" value="I'm Feeling Lucky" id="im_feeling_lucky">-->
-    <!--</div>-->
-
-  </body>
+<div class="form">
+  <form action="/search" method="POST">
+    <label for="form-search"></label>
+    <input type="text" id="form-search" name="query" placeholder="Search for a domain">
+    <button type="submit">Submit</button>
+  </form>
+</div>
+</body>
