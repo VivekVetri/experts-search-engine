@@ -43,7 +43,10 @@ def search_keywords():
     """ Sample request - { 'query' : 'computer science' }"""
 
     keywords = request.forms.get('query')
-    ranker_code = request.forms.getall('ranker_code')[0]
+    try:
+        ranker_code = request.forms.getall('ranker_code')[0]
+    except:
+        ranker_code = 'bm25'
     decoded_results = decode_results(search(ranker_code, keywords, 10, False))
     print("Ranker code : ", ranker_code)
 
