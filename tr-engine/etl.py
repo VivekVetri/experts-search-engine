@@ -1,7 +1,7 @@
 import sys
 import json
 import re
-
+from orderedset import OrderedSet
 
 def remove_tags(html_text):
     """ Removes XML/HTML tags """
@@ -54,6 +54,7 @@ if __name__ == '__main__':
 
     print("Reading input file ", input_file)
 
+    page_url_list_data = []
     if input_file is not None:
         # Loading input json as dictionary
         with open(input_file, 'r') as fin:
@@ -87,6 +88,7 @@ if __name__ == '__main__':
                             # experts.dat.names file
                             exp_dat_names.write(str(name) + ' , ' + str(page))
                             exp_dat_names.write('\n')
+                            page_url_list_data.append(page.lower().strip())
 
                             # experts.dat file
                             exp_dat.write(processed_details)
@@ -97,6 +99,8 @@ if __name__ == '__main__':
         exp_dat.close()
         exp_dat_names.close()
 
+    for page in page_url_list_data:
+        print(page)
     # Judgements csv file - query words, documentID, 1/0
     rel_judgement_file = sys.argv[2]
 
@@ -110,7 +114,7 @@ if __name__ == '__main__':
         rel_content = [line.strip() for line in rel_content]
 
         # Query keywords to store unique set of query keywords
-        query_keywords_set = set()
+        query_keywords_set = OrderedSet()
 
         result_url_list = []
 
@@ -144,7 +148,7 @@ if __name__ == '__main__':
             # only if all three info is available
             if formatted_keywords and formatted_result_url and str(relevance):
                 qrel = str(str(query_keywords_list.index(formatted_keywords)) + ' '
-                           + str(result_url_list.index(formatted_result_url)) + ' '
+                           + str(page_url_list_data.index(formatted_result_url)) + ' '
                            + str(relevance).strip())
                 qrels_list.append(qrel)
                 rels_counter += 1

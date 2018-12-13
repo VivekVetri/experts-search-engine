@@ -1,5 +1,5 @@
-machine learning
-computer networks
-cryptography
 computer graphics
+cryptography
+computer networks
 genomics
+machine learning
