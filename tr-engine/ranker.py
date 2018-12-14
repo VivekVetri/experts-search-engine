@@ -136,7 +136,7 @@ def rank(config_file, ranker_code, refresh_cache=False):
     print("\nIR Evaluation : ")
     # IR Evaluation
     ev = metapy.index.IREval(config)
-    num_results = 2
+    num_results = 5
     with open('experts/experts-queries.txt') as query_file:
         for query_num, line in enumerate(query_file):
             query_keywords = line.strip()
