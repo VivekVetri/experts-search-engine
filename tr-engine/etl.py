@@ -3,6 +3,7 @@ import json
 import re
 from orderedset import OrderedSet
 
+
 def remove_tags(html_text):
     """ Removes XML/HTML tags """
     xml_tag_regex = re.compile(r'<[^>]+>')
@@ -46,10 +47,10 @@ if __name__ == '__main__':
     input_file = sys.argv[1]
 
     # Experts Dataset
-    dataset_prefix = 'tr-engine/experts/'
+    dataset_prefix = 'tr-engine/experts'
     experts_data_file = dataset_prefix + '/experts.dat'
     experts_data_names_file = dataset_prefix + '/experts.dat.names'
-    experts_queries_file = dataset_prefix + 'experts-queries.txt'
+    experts_queries_file = dataset_prefix + '/experts-queries.txt'
     experts_qrels_file = dataset_prefix + '/experts-qrels.txt'
 
     print("Reading input file ", input_file)
@@ -99,8 +100,6 @@ if __name__ == '__main__':
         exp_dat.close()
         exp_dat_names.close()
 
-    for page in page_url_list_data:
-        print(page)
     # Judgements csv file - query words, documentID, 1/0
     rel_judgement_file = sys.argv[2]
 
