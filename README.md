@@ -1,10 +1,10 @@
-#Requirements
+# Requirements
 
 * python3
 * pip3
 * mkvirtualenv and workon utilities
 
-#Setup
+# Setup
 
 ```
 mkvirtualenv ese-stack
@@ -12,19 +12,19 @@ workon ese-stack
 pip3 install -r requirements.txt
 ```
 
-#Running Crawler to fetch data
+# Running Crawler to fetch data
 ```
 cd crawler/crawler
 scrapy crawl expert -o expert.json
 ```
 
-#Running TR-Engine: ETL
+# Running TR-Engine: ETL
 * Transforms crawler's raw dataset into MeTA format dataset. Refer Dataset
 ```bash
 python3 tr-engine/etl.py crawler/crawler/expert.json tr-engine/experts/experts-rel-judgements.csv
 ```
 
-#Dataset (tr-engine/experts)
+# Dataset (tr-engine/experts)
 
 * experts/experts.dat - contains details of an expert per line
 * experts/experts.dat.names - contains name
@@ -33,7 +33,7 @@ python3 tr-engine/etl.py crawler/crawler/expert.json tr-engine/experts/experts-r
 * line.toml - format of dataset
 * stopwords.txt - stopwords file
 
-#Running TR-Engine: Ranker Batch
+# Running TR-Engine: Ranker Batch
 ```bash
 cd tr-engine
 python3 ranker.py config.toml bm25
@@ -42,7 +42,7 @@ python3 ranker.py config.toml l2
 python3 ranker.py config.toml dp 
 ```
 
-#Running TR-Engine: Webapp 
+# Running TR-Engine: Webapp 
 ```bash
 cd tr-engine
 python3 webapp.py
