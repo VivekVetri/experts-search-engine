@@ -1,8 +1,4 @@
-import shutil
-from time import sleep
-
 from bottle import route, run, template, request, static_file
-import metapy
 from ranker import search, rebuild_index
 
 
@@ -16,13 +12,6 @@ def decode_results(results):
                     table_data.append(",".join(line.split(',')) + ', ' + str(score))
 
     return table_data
-
-
-def remove_punctuations(text):
-    """ Cleans up text """
-    for charac in '-.,\n':
-        text = text.replace(charac, '')
-    return text.lower()
 
 
 @route('/static/<filepath:path>')
@@ -46,8 +35,11 @@ def search_keywords():
     try:
         ranker_code = request.forms.getall('ranker_code')[0]
     except:
+        # default bm25
         ranker_code = 'bm25'
+
     decoded_results = decode_results(search(ranker_code, keywords, 10, False))
+
     print("Ranker code : ", ranker_code)
 
     return template('templates/result.html', query=keywords, results=decoded_results, ranker_code=ranker_code)
