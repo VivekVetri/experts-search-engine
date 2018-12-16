@@ -43,6 +43,10 @@ python3 tr-engine/etl.py crawler/crawler/expert.json tr-engine/experts/experts-r
 * experts-rel-judgements.csv - Relevance judgements mapping (manually prepared static file)
 
 ## Running TR-Engine: Ranker Batch
+
+* Queries for evaluation will be taken from experts-queries.txt
+* Rankers (bm25, jm, l2, dp) are optional. If not provided, bm25 will be used by default.
+
 ```bash
 cd tr-engine
 python3 ranker.py config.toml bm25
